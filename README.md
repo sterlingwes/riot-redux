@@ -1,6 +1,11 @@
 # Riot Redux Mixin #
 This repo is for demonstrating one possible architecture for using Riot and Redux together.
 
+### Start
+
+Start a web server from the `example/` directory, ie:
+
+`python -m SimpleHTTPServer`, then open [`localhost:8000`](http://localhost:8000)
 
 ## Thoughts behind the architecture ##
 
