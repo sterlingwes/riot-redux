@@ -5,7 +5,9 @@
   <ul>
     <li each={ state.items }>
       <label class={ completed: done }>
-        <input type="checkbox" checked={ done } onclick={ parent.toggle }> { title }
+        <input type="checkbox" checked={ done } onclick={ parent.toggle }>
+        <span onclick={ parent.remove }>&times;</span>
+        { title }
       </label>
     </li>
   </ul>
@@ -35,6 +37,12 @@
       const index = this.state.items.indexOf(e.item);
       this.dispatch('toggle_item_done', {index: index});
       return true
+    }
+
+    remove(e) {
+      const index = this.state.items.indexOf(e.item);
+      this.dispatch('remove_item', {index: index})
+      return false
     }
 
     this.on('mount', function() {

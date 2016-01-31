@@ -22,6 +22,7 @@ var Reducer = (function () { //eslint-disable-line
     var newState = state
 
     var items
+    var index
 
     switch (action.type) {
       case 'load_todo':
@@ -32,11 +33,21 @@ var Reducer = (function () { //eslint-disable-line
         newState = Object.assign({}, state, {items: items})
         break
       case 'toggle_item_done':
-        var index = action.index
+        index = action.index
         var item = state.items[index]
         item = Object.assign({}, item, {done: !item.done})
         items = state.items.slice(0, index).concat([item], state.items.slice(index + 1))
         newState = Object.assign({}, state, {items: items})
+        break
+      case 'remove_item':
+        index = action.index
+        items = state.items.filter(function (_, i) {
+          return i !== index
+        })
+        newState = Object.assign({}, state, {items: items})
+        break
+      default:
+        if (!/@@redux\//.test(action.type)) console.warn('%cUnhandled action -> ' + action.type, 'color: red')
         break
     }
 
