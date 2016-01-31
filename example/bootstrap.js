@@ -1,11 +1,11 @@
-/* globals riot, TodoLogic, ReduxMixin, Redux */
+/* globals riot, Reducer, ReduxMixin, Redux */
 
 var RootReducer = Redux.combineReducers({
-  todo: TodoLogic.reducer
+  todo: Reducer.fn
 })
 
 var Store = ReduxMixin(Redux.createStore(RootReducer /*, initialState */))
 
-TodoLogic.setStore(Store)
+Reducer.init(Store)
 
 riot.mount('todo')

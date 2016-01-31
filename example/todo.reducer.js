@@ -14,10 +14,10 @@ function fetchTodo (callback) {
   }, 500)
 }
 
-var TodoLogic = (function () { //eslint-disable-line
+var Reducer = (function () { //eslint-disable-line
   var defaultState = {title: '...loading', items: []}
 
-  function todo (state, action) {
+  function reducerFn (state, action) {
     state = state || defaultState
 
     var items
@@ -39,7 +39,7 @@ var TodoLogic = (function () { //eslint-disable-line
     }
   }
 
-  function setStore (store) {
+  function init (store) {
     // Action creators
 
     store.on('fetch-todo', function () {
@@ -50,5 +50,5 @@ var TodoLogic = (function () { //eslint-disable-line
 
   }
 
-  return {reducer: todo, setStore: setStore}
+  return {fn: reducerFn, init: init}
 }())
