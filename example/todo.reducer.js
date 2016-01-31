@@ -19,24 +19,33 @@ var Reducer = (function () { //eslint-disable-line
 
   function reducerFn (state, action) {
     state = state || defaultState
+    var newState = state
 
     var items
 
     switch (action.type) {
       case 'load_todo':
-        return action.todo
+        newState = action.todo
+        break
       case 'add_item':
         items = state.items.concat([action.item])
-        return Object.assign({}, state, {items: items})
+        newState = Object.assign({}, state, {items: items})
+        break
       case 'toggle_item_done':
         var index = action.index
         var item = state.items[index]
         item = Object.assign({}, item, {done: !item.done})
         items = state.items.slice(0, index).concat([item], state.items.slice(index + 1))
-        return Object.assign({}, state, {items: items})
-      default:
-        return state
+        newState = Object.assign({}, state, {items: items})
+        break
     }
+
+    if (!/@@redux\//.test(action.type)) {
+      console.info('%cACTION -> ' + action.type, 'font-weight: bold')
+      console.log('%cOld state', 'color: #ccc', state)
+      console.log('%cNew state', 'color: blue', newState)
+    }
+    return newState
   }
 
   function init (store) {
