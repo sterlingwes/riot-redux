@@ -1,53 +1,54 @@
 // simulating async request
-function fetchTodo(callback) {
+function fetchTodo (callback) {
   var todo = {
     title: 'I want to behave!',
     items: [
       { title: 'Avoid excessive caffeine', done: true },
-      { title: 'Hidden item',  hidden: true },
-      { title: 'Be less provocative'  },
+      { title: 'Hidden item', hidden: true },
+      { title: 'Be less provocative' },
       { title: 'Be nice to people' }
     ]
-  };
+  }
   setTimeout(function () {
-    callback(todo);
+    callback(todo)
   }, 500)
 }
 
+var TodoLogic = (function () { //eslint-disable-line
+  var defaultState = {title: '...loading', items: []}
 
-var TodoLogic = (function() {
+  function todo (state, action) {
+    state = state || defaultState
 
-  var defaultState = {title: '...loading', items: []};
+    var items
 
-  function todo(state, action) {
-    state = state || defaultState;
-
-    switch(action.type) {
+    switch (action.type) {
       case 'load_todo':
-        return action.todo;
+        return action.todo
       case 'add_item':
-        var items = state.items.concat([action.item])
-        return Object.assign({}, state, {items: items});
+        items = state.items.concat([action.item])
+        return Object.assign({}, state, {items: items})
       case 'toggle_item_done':
-        var index = action.index, item = state.items[index];
-        item = Object.assign({}, item, {done: !item.done});
-        var items = state.items.slice(0, index).concat([item], state.items.slice(index + 1))
-        return Object.assign({}, state, {items: items});
+        var index = action.index
+        var item = state.items[index]
+        item = Object.assign({}, item, {done: !item.done})
+        items = state.items.slice(0, index).concat([item], state.items.slice(index + 1))
+        return Object.assign({}, state, {items: items})
       default:
-        return state;
+        return state
     }
   }
 
-  function setStore(store) {
+  function setStore (store) {
     // Action creators
 
     store.on('fetch-todo', function () {
       fetchTodo(function (todo) {
-        store.dispatch({type: 'load_todo', todo: todo});
+        store.dispatch({type: 'load_todo', todo: todo})
       })
-    });
+    })
 
   }
 
-  return {reducer: todo, setStore: setStore};
-}());
+  return {reducer: todo, setStore: setStore}
+}())
